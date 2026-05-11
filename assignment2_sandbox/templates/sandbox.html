@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Malware Analysis Sandbox</title>
+</head>
+<body>
+    <h1>Malware Analysis Sandbox</h1>
+
+    <p>This UI starts the safe sandbox analysis, stops the running container if needed, and displays the generated report.</p>
+
+    <p><strong>Sandbox status:</strong> {{ "RUNNING" if running else "STOPPED" }}</p>
+
+    <form method="POST" action="/start" style="display:inline;">
+        <button type="submit">Start Sandbox Analysis</button>
+    </form>
+
+    <form method="POST" action="/stop" style="display:inline;">
+        <button type="submit">Stop Sandbox</button>
+    </form>
+
+    <hr>
+
+    <h2>Generated Report</h2>
+    <pre>{{ report }}</pre>
+
+    <h2>Raw JSON Log</h2>
+    <pre>{{ log }}</pre>
+</body>
+</html>

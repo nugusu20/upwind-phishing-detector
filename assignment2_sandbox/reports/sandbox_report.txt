@@ -1,0 +1,21 @@
+Malware Analysis Sandbox Report
+================================
+
+Sample executed: /samples/safe_sample.py
+
+File changes:
+- Created: created_by_sample.txt
+- Modified: modified_by_sample.txt
+- Deleted: deleted_by_sample.txt
+
+Process activity snapshot:
+PID    PPID COMMAND         COMMAND
+      1       0 python3         python3 /analysis/monitor.py
+      7       1 python3         python3 /samples/safe_sample.py
+      8       7 sh              sh -c sleep 2
+      9       8 sleep           sleep 2
+     10       1 ps              ps -eo pid,ppid,comm,args
+
+Network activity snapshot:
+Netid State  Recv-Q Send-Q Local Address:Port Peer Address:PortProcess                        
+tcp   LISTEN 0      1          127.0.0.1:4444      0.0.0.0:*    users:(("python3",pid=7,fd=3))
