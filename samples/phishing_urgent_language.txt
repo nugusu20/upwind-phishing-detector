@@ -1,0 +1,11 @@
+From: support@example.com
+To: user@example.com
+Subject: Urgent Action Required
+
+Your account will be suspended.
+Please verify now and update your details immediately.
+
+https://example.com/login
+
+Regards,
+Support Team

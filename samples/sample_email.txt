@@ -1,0 +1,10 @@
+From: support@example.com
+To: user@example.com
+Subject: Account Update
+
+Hello,
+This is a regular account update message.
+No action is required at this time.
+
+Regards,
+Support Team

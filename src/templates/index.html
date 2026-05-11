@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Email Phishing Detector</title>
+</head>
+<body>
+    <h1>Email Phishing Detector</h1>
+
+    <p>Upload a text file containing email content to scan it for phishing indicators.</p>
+
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="email_file" accept=".txt" required>
+        <button type="submit">Scan Email</button>
+    </form>
+
+    {% if error %}
+        <p><strong>Error:</strong> {{ error }}</p>
+    {% endif %}
+
+    {% if findings is not none %}
+        <hr>
+        <h2>Scan Results</h2>
+        <p><strong>File:</strong> {{ filename }}</p>
+        <p><strong>Likely phishing attempt:</strong> {{ "YES" if findings else "NO" }}</p>
+        <p><strong>Detected indicators:</strong> {{ findings|length }}</p>
+
+        {% if findings %}
+            <ul>
+                {% for finding in findings %}
+                    <li>{{ finding }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No suspicious indicators detected.</p>
+        {% endif %}
+    {% endif %}
+</body>
+</html>

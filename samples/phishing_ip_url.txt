@@ -1,0 +1,11 @@
+From: security-alert@example.com
+To: user@example.com
+Subject: Urgent Account Verification
+
+Your account requires immediate verification.
+Please click the link below:
+
+http://192.168.1.50/login
+
+Regards,
+Security Team

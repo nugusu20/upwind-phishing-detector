@@ -1,0 +1,10 @@
+From: security@examp1e.com
+To: user@example.com
+Subject: Account Alert
+
+Please review your account activity.
+
+https://example.com/account
+
+Regards,
+Security Team

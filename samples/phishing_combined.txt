@@ -1,0 +1,12 @@
+From: security@examp1e.com
+To: user@example.com
+Subject: Urgent Action Required
+
+Your account will be suspended.
+Please verify now and update your details immediately.
+
+http://192.168.1.50/login
+https://secure-login-update.xyz/account
+
+Regards,
+Security Team

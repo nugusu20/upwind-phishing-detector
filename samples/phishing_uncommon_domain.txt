@@ -1,0 +1,10 @@
+From: billing@example.com
+To: user@example.com
+Subject: Account Notice
+
+Please review your billing information here:
+
+https://secure-login-update.xyz/account
+
+Regards,
+Billing Team
