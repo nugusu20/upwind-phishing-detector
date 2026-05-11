@@ -291,6 +291,6 @@ This keeps the project dependencies isolated from the system Python environment.
 
 ### GitHub Actions CI Passed
 
-![GitHub Actions CI Passed](docs/screenshots/github-actions-ci-passed.png)
+![GitHub Actions CI Passed](docs/screenshots/professional/github-actions-ci-passed.png)
 
 This screenshot shows that the GitHub Actions CI workflow ran successfully and the automated tests passed after pushing the project to GitHub.

@@ -1,5 +1,5 @@
 .RECIPEPREFIX := >
-.PHONY: setup test run-cli run-ui docker-build docker-run assignment2-build assignment2-run assignment2-ui
+.PHONY: setup test run-cli run-ui docker-build docker-run assignment2-build assignment2-run assignment2-ui assignment3-init-db assignment3-ui
 
 setup:
 >python3 -m venv .venv
@@ -28,3 +28,9 @@ assignment2-run:
 
 assignment2-ui:
 >.venv/bin/python assignment2_sandbox/sandbox_ui.py
+
+assignment3-init-db:
+>.venv/bin/python assignment3_sqli/database.py
+
+assignment3-ui:
+>.venv/bin/python assignment3_sqli/app.py
