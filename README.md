@@ -1,296 +1,485 @@
-# Upwind Email Phishing Detector
+# Upwind Home Assignment
 
-## 1. Project Overview
+This repository contains my implementation of the Upwind home assignment.
 
-This project was built as part of the Upwind home assignment.
-
-The goal is to implement an Email Phishing Detector that scans email content, detects common phishing indicators, and alerts the user when a message looks suspicious.
-
-The solution includes:
-
-- A command-line phishing detection script.
-- Sample email files for testing different phishing indicators.
-- A web UI for uploading email content and viewing scan results.
-- A Gmail Add-on prototype for scanning messages directly from Gmail.
+The project is divided into three assignments.  
+Each assignment includes the required implementation, the official bonus where relevant, and evidence screenshots.
 
 ---
 
-## 2. Assignment Scope
+## Quick Start
 
-### Required Scope
+### Setup
 
-The assignment required building a script that accepts an email text file and scans it for common phishing indicators.
+```bash
+make setup
+```
 
-The required indicators are:
+### Run Tests
 
-- Suspicious links:
-  - URLs with uncommon domains.
-  - URLs that use IP addresses.
-- Spoofed sender addresses.
-- Urgent language such as `urgent`, `immediately`, and `action required`.
-
-The script also needs to print a clear summary that shows whether the email is likely a phishing attempt and list the detected indicators.
-
-### Bonus Scope
-
-The official bonus requirements are:
-
-- A user interface for uploading email content and displaying the results.
-- A Gmail Add-on that allows users to scan emails directly from their inbox.
+```bash
+make test
+```
 
 ---
 
-## 3. What I Built
+## Assignment Coverage
 
-I built a local phishing detection tool in Python.
+| Assignment | Status | Scope |
+|---|---|---|
+| Assignment 1 | Completed | Email Phishing Detector |
+| Assignment 2 | Completed | Malware Analysis Sandbox |
+| Assignment 3 | Completed | SQL Injection Demo + Mitigation |
 
-The core detection logic is implemented in:
+---
+
+<details>
+<summary><strong>Assignment 1 – Email Phishing Detector</strong></summary>
+
+## Original Requirement
+
+Implement a script that scans email content for common phishing indicators and alerts the user to potential phishing attempts.
+
+The detector should:
+
+- Accept a text file containing email content
+- Detect suspicious links
+- Detect URLs with uncommon domains
+- Detect IP addresses in URLs
+- Detect spoofed sender addresses
+- Detect urgent language
+- Print a clear summary with the detected indicators
+
+## What I Built
+
+I built a Python CLI phishing detector.
+
+Main file:
 
 ```text
 src/phishing_detector.py
 ```
 
-The web UI bonus is implemented in:
+Sample emails:
 
 ```text
-src/web_app.py
-src/templates/index.html
+samples/
 ```
 
-The Gmail Add-on prototype is implemented in:
+The detector scans email text and returns a summary showing whether the email is likely a phishing attempt.
 
-```text
-gmail-addon/Code.gs
-gmail-addon/appsscript.json
-gmail-addon/README.md
+## How to Run
+
+```bash
+make run-cli
 ```
 
----
-
-## 4. Why I Built It This Way
-
-I started with the required command-line script first, because the assignment specifically asks for a script that accepts a text file containing email content.
-
-After the required logic was working, I added the official UI bonus using Flask. This allows a user to upload an email text file from the browser and see the phishing detection results.
-
-Finally, I added a Gmail Add-on prototype using Google Apps Script to address the second bonus requirement. This part is designed to integrate with Gmail and scan the currently opened email message.
-
-This approach keeps the solution aligned with the assignment while also showing practical DevOps, system, and security thinking.
-
----
-
-## 5. Detection Logic
-
-The detector checks for the following indicators:
-
-### IP Address Used in URL
-
-Example:
-
-```text
-http://192.168.1.50/login
-```
-
-This is suspicious because phishing emails sometimes use raw IP addresses instead of trusted domains.
-
-### Uncommon Domain in URL
-
-Example:
-
-```text
-https://secure-login-update.xyz/account
-```
-
-The detector flags uncommon top-level domains such as `.xyz`, `.top`, `.click`, `.zip`, `.review`, `.country`, and `.stream`.
-
-### Possible Spoofed Sender
-
-Example:
-
-```text
-security@examp1e.com
-```
-
-This looks similar to:
-
-```text
-example.com
-```
-
-The detector compares the sender domain against known legitimate domains and flags similar-looking domains.
-
-### Urgent Language
-
-Examples:
-
-```text
-urgent
-immediately
-action required
-verify now
-account suspended
-```
-
-These terms are commonly used in phishing attempts to pressure the user into acting quickly.
-
----
-
-## 6. How to Run the CLI Detector
-
-Run the detector on a sample email:
+Or directly:
 
 ```bash
 python3 src/phishing_detector.py samples/phishing_combined.txt
 ```
 
-Expected example output:
+## Expected Result
 
 ```text
-=== Email Phishing Detection Summary ===
 Likely phishing attempt: YES
 Detected indicators: 7
-- IP address used in URL: http://192.168.1.50/login
-- Uncommon domain used in URL: https://secure-login-update.xyz/account
-- Possible spoofed sender: security@examp1e.com looks similar to example.com
-- Urgent language detected: action required
-- Urgent language detected: immediately
-- Urgent language detected: urgent
-- Urgent language detected: verify now
 ```
 
-Run the detector on a legitimate sample:
+## Bonus – Web UI
+
+I added a local Flask UI for uploading an email text file and viewing the scan results in the browser.
+
+Run:
 
 ```bash
-python3 src/phishing_detector.py samples/sample_email.txt
+make run-ui
 ```
 
-Expected example output:
-
-```text
-=== Email Phishing Detection Summary ===
-Likely phishing attempt: NO
-Detected indicators: 0
-- No suspicious indicators detected.
-```
-
----
-
-## 7. How to Run the Web UI
-
-Activate the virtual environment:
-
-```bash
-source .venv/bin/activate
-```
-
-Run the Flask web application:
-
-```bash
-python3 src/web_app.py
-```
-
-Open the browser:
+Open:
 
 ```text
 http://127.0.0.1:5000
 ```
 
-Upload one of the sample files from the `samples/` folder and scan it.
+## Bonus – Gmail Add-on Prototype
 
----
+I added a Gmail Add-on prototype using Google Apps Script.
 
-## 8. Gmail Add-on Prototype
-
-The Gmail Add-on prototype is stored under:
+Folder:
 
 ```text
 gmail-addon/
 ```
 
-It includes:
+This prototype is designed to scan the currently opened Gmail message and show phishing detection results inside Gmail.
 
-- `appsscript.json` - Google Apps Script manifest.
-- `Code.gs` - Gmail Add-on logic.
-- `README.md` - Explanation of the add-on prototype.
+## Evidence
 
-The purpose of this prototype is to scan the currently opened Gmail message and display phishing detection results inside the Gmail interface.
+### CLI Detection
 
-This part is not executed from Linux or WSL. It is designed to run in Google Apps Script as part of Google Workspace.
+This screenshot shows the CLI detecting multiple phishing indicators from a sample email.
+
+![Assignment 1 CLI Detection](docs/screenshots/assignment1/cli-combined-phishing-detection.png)
+
+### Web UI Detection
+
+This screenshot shows the web UI displaying phishing detection results after uploading an email file.
+
+![Assignment 1 Web UI](docs/screenshots/assignment1/web-ui-phishing-results.png)
+
+</details>
 
 ---
 
-## 9. Project Structure
+<details>
+<summary><strong>Assignment 2 – Malware Analysis Sandbox</strong></summary>
+
+## Original Requirement
+
+Develop a sandbox environment that executes and monitors a sample piece of malware and captures its behavior.
+
+The sandbox should monitor:
+
+- File system changes
+- Network connections
+- Process activity
+
+It should also generate a report summarizing the behavior.
+
+## Safety Note
+
+I did not run real malware.
+
+Instead, I created a safe simulated sample that demonstrates suspicious behavior in a controlled and isolated environment.
+
+## What I Built
+
+I built a Docker-based sandbox.
+
+Main files:
+
+```text
+assignment2_sandbox/Dockerfile
+assignment2_sandbox/monitor.py
+assignment2_sandbox/samples/safe_sample.py
+```
+
+The safe sample simulates:
+
+- Creating a file
+- Modifying a file
+- Deleting a file
+- Spawning a process
+- Opening local network activity
+
+The monitor runs the sample, collects behavior, and generates:
+
+```text
+assignment2_sandbox/logs/sandbox_log.json
+assignment2_sandbox/reports/sandbox_report.txt
+```
+
+## How to Run
+
+Build the sandbox image:
+
+```bash
+make assignment2-build
+```
+
+Run the sandbox analysis:
+
+```bash
+make assignment2-run
+```
+
+Run the UI:
+
+```bash
+make assignment2-ui
+```
+
+Open:
+
+```text
+http://127.0.0.1:5001
+```
+
+## Expected Result
+
+The sandbox report shows:
+
+- Created files
+- Modified files
+- Deleted files
+- Spawned processes
+- Local network activity
+
+## Bonus – Sandbox UI
+
+I added a Flask UI that can start the sandbox, stop it if needed, and display the generated report and raw JSON log.
+
+## Evidence
+
+### Docker Build
+
+This screenshot shows the Docker sandbox image building successfully.
+
+![Assignment 2 Docker Build](docs/screenshots/assignment2/assignment2-docker-build.png)
+
+### Terminal Report
+
+This screenshot shows the generated sandbox report in the terminal.
+
+![Assignment 2 Terminal Report](docs/screenshots/assignment2/assignment2-run-report-terminal.png)
+
+### Sandbox UI Report
+
+This screenshot shows the UI displaying the generated behavior report.
+
+![Assignment 2 UI Report](docs/screenshots/assignment2/assignment2-sandbox-ui-report.png)
+
+### UI Terminal Requests
+
+This screenshot shows Flask receiving browser requests such as `GET` and `POST`.
+
+![Assignment 2 UI Terminal Requests](docs/screenshots/assignment2/assignment2-ui-terminal-requests.png)
+
+### Raw JSON Log
+
+This screenshot shows the raw JSON log generated by the sandbox monitor.
+
+![Assignment 2 JSON Log](docs/screenshots/assignment2/assignment2-sandbox-ui-json-log.png)
+
+</details>
+
+---
+
+<details>
+<summary><strong>Assignment 3 – SQL Injection Demo</strong></summary>
+
+## Original Requirement
+
+Develop a simple web application and demonstrate a SQL Injection attack, then implement measures to prevent it.
+
+The application should include:
+
+- A basic login form
+- A database with user credentials
+- A vulnerable login flow
+- A secure login flow
+- A SQL Injection bypass demo
+- A mitigation using parameterized queries
+
+## What I Built
+
+I built a local Flask web application with SQLite.
+
+Main files:
+
+```text
+assignment3_sqli/app.py
+assignment3_sqli/database.py
+assignment3_sqli/templates/index.html
+```
+
+The application has two login flows:
+
+- Vulnerable Login
+- Secure Login
+
+Both are shown in the same UI to make the difference clear.
+
+## How to Run
+
+Initialize the database:
+
+```bash
+make assignment3-init-db
+```
+
+Run the UI:
+
+```bash
+make assignment3-ui
+```
+
+Open:
+
+```text
+http://127.0.0.1:5002
+```
+
+## Test User
+
+```text
+Username: admin
+Password: SecurePass123
+```
+
+## SQL Injection Payload
+
+```text
+' OR '1'='1
+```
+
+## Expected Result
+
+### Vulnerable Login
+
+The SQL Injection bypass succeeds.
+
+```text
+Status: Login successful
+```
+
+### Secure Login
+
+The same SQL Injection attempt fails.
+
+```text
+Status: Login failed
+```
+
+## Mitigation
+
+The secure login uses parameterized queries.
+
+This means user input is treated as data and cannot change the SQL query structure.
+
+## Bonus – UI
+
+The UI demonstrates both the vulnerable and secure login flows and shows the attack results clearly.
+
+## Evidence
+
+### Valid Login
+
+This screenshot shows that normal login works with valid credentials.
+
+![Assignment 3 Valid Login](docs/screenshots/assignment3/assignment3-valid-login-success.png)
+
+### Vulnerable Login Bypass
+
+This screenshot shows the vulnerable login being bypassed using SQL Injection.
+
+![Assignment 3 Vulnerable Login](docs/screenshots/assignment3/assignment3-vulnerable-login-bypass.png)
+
+### Secure Login Blocked
+
+This screenshot shows the same SQL Injection attempt failing against the secure login.
+
+![Assignment 3 Secure Login](docs/screenshots/assignment3/assignment3-secure-login-blocked.png)
+
+</details>
+
+---
+
+<details>
+<summary><strong>Professional Enhancements</strong></summary>
+
+## Makefile
+
+I added a Makefile to make the project easier to run and review.
+
+Common commands:
+
+```bash
+make setup
+make test
+make run-cli
+make run-ui
+make assignment2-build
+make assignment2-run
+make assignment2-ui
+make assignment3-init-db
+make assignment3-ui
+```
+
+## Docker
+
+Docker is used where it adds value:
+
+- Assignment 1: Run the phishing detector UI in a container
+- Assignment 2: Provide sandbox isolation using a container
+
+## GitHub Actions CI
+
+GitHub Actions runs automated tests on push and pull requests.
+
+Evidence:
+
+![GitHub Actions CI Passed](docs/screenshots/professional/github-actions-ci-latest-passed.png)
+
+## Automated Tests
+
+The project includes pytest tests for the phishing detector logic.
+
+Run:
+
+```bash
+make test
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong>Security & Permissions</strong></summary>
+
+## Local and Safe Execution
+
+All demonstrations are local and controlled.
+
+- No real malware was used
+- The sandbox uses a safe simulated sample
+- SQL Injection is demonstrated only against the local demo application
+- No external systems are attacked
+
+## File Permissions
+
+The project uses standard Linux permissions:
+
+| Type | Permission | Meaning |
+|---|---|---|
+| Directories | `755` | Readable and accessible project folders |
+| Files | `644` | Readable code/docs without unnecessary execute permission |
+
+No world-writable permissions such as `777` are used.
+
+## Secrets
+
+Sensitive and local files are excluded from Git:
+
+```text
+.venv/
+.env
+*.db
+__pycache__/
+.pytest_cache/
+```
+
+</details>
+
+---
+
+## Project Structure
 
 ```text
 .
+├── assignment2_sandbox/
+├── assignment3_sqli/
+├── docs/
+│   └── screenshots/
 ├── gmail-addon/
-│   ├── Code.gs
-│   ├── README.md
-│   └── appsscript.json
 ├── samples/
-│   ├── phishing_combined.txt
-│   ├── phishing_ip_url.txt
-│   ├── phishing_spoofed_sender.txt
-│   ├── phishing_uncommon_domain.txt
-│   ├── phishing_urgent_language.txt
-│   └── sample_email.txt
 ├── src/
-│   ├── phishing_detector.py
-│   ├── web_app.py
-│   └── templates/
-│       └── index.html
-├── .gitignore
+├── tests/
+├── Dockerfile
+├── Makefile
 ├── README.md
 └── requirements.txt
 ```
-
----
-
-## 10. Security Notes
-
-This project is a safe local prototype.
-
-It does not attack external systems, does not send emails, does not scan real inboxes without user interaction, and does not perform offensive activity.
-
-All phishing examples are local sample text files created only for demonstration and testing.
-
----
-
-## 11. Professional Enhancements
-
-In addition to the official assignment requirements, the project includes:
-
-- Clean project structure.
-- Python virtual environment support.
-- `.gitignore` for clean Git usage.
-- Sample email files for repeatable testing.
-- Clear README documentation for technical review and presentation.
-
----
-
-## Environment Setup
-
-Create and activate a Python virtual environment:
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-```
-
-Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-This keeps the project dependencies isolated from the system Python environment.
-
----
-
-## 13. Demo Evidence
-
-### GitHub Actions CI Passed
-
-![GitHub Actions CI Passed](docs/screenshots/professional/github-actions-ci-passed.png)
-
-This screenshot shows that the GitHub Actions CI workflow ran successfully and the automated tests passed after pushing the project to GitHub.
